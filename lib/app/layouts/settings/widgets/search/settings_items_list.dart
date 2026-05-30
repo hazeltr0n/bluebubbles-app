@@ -12,6 +12,7 @@ import 'package:bluebubbles/app/layouts/settings/pages/advanced/notification_pro
 import 'package:bluebubbles/app/layouts/settings/pages/advanced/private_api_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/advanced/redacted_mode_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/advanced/tasker_panel.dart';
+import 'package:bluebubbles/app/layouts/settings/pages/advanced/transcription_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/conversation_list/chat_list_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/desktop/desktop_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/message_view/attachment_panel.dart';
@@ -576,6 +577,42 @@ List<Widget> buildSettingItemList({
             );
           },
           child: RedactedModeTile(tileColor: tileColor),
+        ),
+
+        // Audio Transcription Tile
+        SearchableSettingItem(
+          title: "Audio Transcription", // Title to search
+          searchTags: [
+            "Enable Audio Transcription",
+            "Voice Memo Transcription",
+            "Whisper",
+            "OpenAI API Key",
+            "Transcription Model",
+          ],
+          onTap: () async {
+            ns.pushAndRemoveSettingsUntil(
+              context,
+              const TranscriptionPanel(),
+              (Route route) => route.isFirst,
+            );
+          },
+          child: SettingsTile(
+            backgroundColor: tileColor,
+            title: "Audio Transcription",
+            trailing: const NextButton(),
+            onTap: () async {
+              ns.pushAndRemoveSettingsUntil(
+                context,
+                const TranscriptionPanel(),
+                (Route route) => route.isFirst,
+              );
+            },
+            leading: const SettingsLeadingIcon(
+              iosIcon: CupertinoIcons.waveform,
+              materialIcon: Icons.graphic_eq,
+              containerColor: Colors.indigo,
+            ),
+          ),
         ),
 
         // Tasker Integration Tile (only for Android)

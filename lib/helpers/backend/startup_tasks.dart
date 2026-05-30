@@ -243,6 +243,9 @@ class StartupTasks {
       dispose: (svc) => svc.dispose(),
     );
 
+    Logger.info("Registering TranscriptionService...");
+    GetIt.I.registerSingleton<TranscriptionService>(TranscriptionService());
+
     Logger.info(
         "Startup services initialization complete! Running localhost detection then starting incremental sync...");
 

@@ -190,6 +190,15 @@ class Settings {
   // Desktop settings
   final RxBool useDesktopAccent = RxBool(false);
 
+  // Audio transcription (Whisper) settings
+  // When enabled, incoming audio attachments (voice memos, m4a/caf/etc.) are sent
+  // to OpenAI's audio transcription API and the resulting text is replied back into
+  // the chat. See TranscriptionService.
+  final RxBool enableAudioTranscription = false.obs;
+  final RxString transcriptionApiKey = "".obs;
+  final RxString transcriptionModel = "whisper-1".obs;
+  final RxString transcriptionPrefix = "🎙️ ".obs;
+
   Future<DisplayMode> getDisplayMode() async {
     List<DisplayMode> modes = await FlutterDisplayMode.supported;
     return modes.firstWhereOrNull((element) => element.refreshRate.round() == refreshRate.value) ?? DisplayMode.auto;
@@ -397,6 +406,10 @@ class Settings {
       'lastReviewRequestTimestamp': lastReviewRequestTimestamp.value,
       'serverPrivateAPI': serverPrivateAPI.value,
       'iMessageStatsSource': iMessageStatsSource.value,
+      'enableAudioTranscription': enableAudioTranscription.value,
+      'transcriptionApiKey': transcriptionApiKey.value,
+      'transcriptionModel': transcriptionModel.value,
+      'transcriptionPrefix': transcriptionPrefix.value,
     };
 
     if (includeAll) {
@@ -806,6 +819,10 @@ class Settings {
     s.hideNamesForReactions.value = map['hideNamesForReactions'] ?? false;
     s.replaceEmoticonsWithEmoji.value = map['replaceEmoticonsWithEmoji'] ?? false;
     s.lastReviewRequestTimestamp.value = map['lastReviewRequestTimestamp'] ?? 0;
+    s.enableAudioTranscription.value = map['enableAudioTranscription'] ?? false;
+    s.transcriptionApiKey.value = map['transcriptionApiKey'] ?? "";
+    s.transcriptionModel.value = map['transcriptionModel'] ?? "whisper-1";
+    s.transcriptionPrefix.value = map['transcriptionPrefix'] ?? "🎙️ ";
     return s;
   }
 

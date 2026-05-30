@@ -381,6 +381,12 @@ class IncomingMessageHandler {
 
       ChatsSvc.updateChat(c, override: true);
       ChatsSvc.updateChatLatestMessage(c.guid, saved);
+
+      // Auto-transcribe incoming audio voice memos (best-effort, fire-and-forget).
+      // The service self-guards on the enable flag, isFromMe, and audio mime type.
+      if (!(saved.isFromMe ?? false) && GetIt.I.isRegistered<TranscriptionService>()) {
+        unawaited(TranscriptionSvc.maybeTranscribe(saved, c));
+      }
     }
 
     // 9. Push / in-app notification.
