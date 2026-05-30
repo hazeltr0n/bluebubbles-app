@@ -296,3 +296,23 @@ void sharePart(MessagePopupActionContext ctx) {
   }
   ctx.popDetails();
 }
+
+Future<void> transcribe(MessagePopupActionContext ctx) async {
+  ctx.popDetails();
+  ctx.showSnack("Transcription", "Transcribing audio…");
+  final result = await TranscriptionSvc.transcribeNow(ctx.message, ctx.chat);
+  switch (result) {
+    case TranscriptionResult.success:
+      ctx.showSnack("Transcription", "Transcription sent");
+      break;
+    case TranscriptionResult.noApiKey:
+      ctx.showSnack("Transcription", "Set your OpenAI API key in Settings → Advanced → Audio Transcription");
+      break;
+    case TranscriptionResult.noAudio:
+      ctx.showSnack("Transcription", "No audio attachment found on this message");
+      break;
+    case TranscriptionResult.failed:
+      ctx.showSnack("Transcription", "Transcription failed — check your API key and connection");
+      break;
+  }
+}

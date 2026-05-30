@@ -527,6 +527,11 @@ class _MessagePopupState extends State<MessagePopup> with SingleTickerProviderSt
           onTap: () => popup_media_actions.copyAttachment(_buildActionContext(DetailsMenuAction.CopyAttachment)),
           action: DetailsMenuAction.CopyAttachment,
         ),
+      if (!kIsWeb && part.attachments.any((a) => a.mimeStart == "audio"))
+        DetailsMenuActionWidget(
+          onTap: () => popup_media_actions.transcribe(_buildActionContext(DetailsMenuAction.Transcribe)),
+          action: DetailsMenuAction.Transcribe,
+        ),
       if (showDownload &&
           supportsOriginalDownload &&
           part.attachments
