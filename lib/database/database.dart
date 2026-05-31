@@ -72,8 +72,15 @@ class Database {
       Logger.info(
           "Database init: SettingsSvc.finishedSetup = $setupFinished, PrefsSvc.finishedSetup = $setupFinished2");
 
-      if (!setupFinished) {
-        Logger.warn("Clearing database because setup is not finished...");
+      // The launch-time "clear an unfinished setup" cleanup must NEVER erase a database that
+      // already holds real data. SettingsSvc.finishedSetup can transiently read false during a
+      // launch race or after a store reset, and trusting it alone has wiped populated caches
+      // (chats/messages re-sync from the Mac server, but it looks like catastrophic data loss).
+      // Only clear when BOTH finished-setup flags are false AND there is nothing to lose.
+      final hasExistingData = Database.chats.count() > 0 || Database.messages.count() > 0;
+
+      if (!setupFinished && !setupFinished2 && !hasExistingData) {
+        Logger.warn("Clearing database because setup is not finished (empty store, safe to clear)...");
 
         Database.attachments.removeAll();
         Database.chats.removeAll();
@@ -84,6 +91,10 @@ class Database {
         Database.themes.removeAll();
         Database.themeEntries.removeAll();
         themeObjects.removeAll();
+      } else if (!setupFinished) {
+        Logger.warn("Skipping database clear — refusing to wipe existing data. "
+            "(SettingsSvc.finishedSetup=$setupFinished, PrefsSvc.finishedSetup=$setupFinished2, "
+            "chats=${Database.chats.count()}, messages=${Database.messages.count()})");
       }
     } catch (e, s) {
       Logger.error("Failed to setup ObjectBox boxes!", error: e, trace: s);
