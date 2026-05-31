@@ -34,7 +34,7 @@ class ClipboardSyncService extends GetxService {
   bool get _canSend => !kIsWeb && !(Platform.isIOS);
 
   void start() {
-    if (!ss.settings.enableClipboardSync.value) return;
+    if (!SettingsSvc.settings.enableClipboardSync.value) return;
     if (_pollTimer != null) return;
     if (!_canSend) return;
 
@@ -60,7 +60,7 @@ class ClipboardSyncService extends GetxService {
   }
 
   Future<void> _poll() async {
-    if (!ss.settings.enableClipboardSync.value) return;
+    if (!SettingsSvc.settings.enableClipboardSync.value) return;
     try {
       final data = await Clipboard.getData(Clipboard.kTextPlain);
       final current = data?.text ?? "";

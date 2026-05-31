@@ -12,6 +12,7 @@ import 'package:bluebubbles/app/layouts/settings/pages/advanced/notification_pro
 import 'package:bluebubbles/app/layouts/settings/pages/advanced/private_api_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/advanced/redacted_mode_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/advanced/tasker_panel.dart';
+import 'package:bluebubbles/app/layouts/settings/pages/advanced/clipboard_sync_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/advanced/transcription_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/conversation_list/chat_list_panel.dart';
 import 'package:bluebubbles/app/layouts/settings/pages/desktop/desktop_panel.dart';
@@ -611,6 +612,41 @@ List<Widget> buildSettingItemList({
               iosIcon: CupertinoIcons.waveform,
               materialIcon: Icons.graphic_eq,
               containerColor: Colors.indigo,
+            ),
+          ),
+        ),
+
+        // Clipboard Sync Tile
+        SearchableSettingItem(
+          title: "Clipboard Sync",
+          searchTags: [
+            "Enable Clipboard Sync",
+            "Sync Clipboard",
+            "Cross-device Clipboard",
+            "Windows Clipboard",
+          ],
+          onTap: () async {
+            ns.pushAndRemoveSettingsUntil(
+              context,
+              const ClipboardSyncPanel(),
+              (Route route) => route.isFirst,
+            );
+          },
+          child: SettingsTile(
+            backgroundColor: tileColor,
+            title: "Clipboard Sync",
+            trailing: const NextButton(),
+            onTap: () async {
+              ns.pushAndRemoveSettingsUntil(
+                context,
+                const ClipboardSyncPanel(),
+                (Route route) => route.isFirst,
+              );
+            },
+            leading: const SettingsLeadingIcon(
+              iosIcon: CupertinoIcons.doc_on_clipboard,
+              materialIcon: Icons.content_paste,
+              containerColor: Colors.teal,
             ),
           ),
         ),
