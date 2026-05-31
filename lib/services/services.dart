@@ -6,6 +6,7 @@ export 'backend/lifecycle/lifecycle_service.dart';
 export 'backend/notifications/notifications_service.dart';
 export 'backend/outgoing_message_handler.dart';
 export 'backend/transcription_service.dart';
+export 'backend/clipboard_sync_service.dart';
 export 'backend/settings/settings_service.dart';
 export 'backend/settings/shared_preferences_service.dart';
 export 'backend/setup/setup_service.dart';

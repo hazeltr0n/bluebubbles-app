@@ -191,6 +191,8 @@ class Settings {
   final RxBool useDesktopAccent = RxBool(false);
 
   // Audio transcription (Whisper) settings
+  final RxBool enableClipboardSync = false.obs;
+
   // When enabled, incoming audio attachments (voice memos, m4a/caf/etc.) are sent
   // to OpenAI's audio transcription API and the resulting text is replied back into
   // the chat. See TranscriptionService.
@@ -406,6 +408,7 @@ class Settings {
       'lastReviewRequestTimestamp': lastReviewRequestTimestamp.value,
       'serverPrivateAPI': serverPrivateAPI.value,
       'iMessageStatsSource': iMessageStatsSource.value,
+      'enableClipboardSync': enableClipboardSync.value,
       'enableAudioTranscription': enableAudioTranscription.value,
       'transcriptionApiKey': transcriptionApiKey.value,
       'transcriptionModel': transcriptionModel.value,
@@ -819,6 +822,7 @@ class Settings {
     s.hideNamesForReactions.value = map['hideNamesForReactions'] ?? false;
     s.replaceEmoticonsWithEmoji.value = map['replaceEmoticonsWithEmoji'] ?? false;
     s.lastReviewRequestTimestamp.value = map['lastReviewRequestTimestamp'] ?? 0;
+    s.enableClipboardSync.value = map['enableClipboardSync'] ?? false;
     s.enableAudioTranscription.value = map['enableAudioTranscription'] ?? false;
     s.transcriptionApiKey.value = map['transcriptionApiKey'] ?? "";
     s.transcriptionModel.value = map['transcriptionModel'] ?? "whisper-1";

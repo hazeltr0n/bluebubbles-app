@@ -151,6 +151,8 @@ class SocketService {
         (data) => MessageHandlerSvc.handleEvent("chat-read-status-changed", data, 'DartSocket'));
     socket?.on("imessage-aliases-removed",
         (data) => MessageHandlerSvc.handleEvent("imessage-aliases-removed", data, 'DartSocket'));
+    socket?.on("clipboard-sync",
+        (data) => MessageHandlerSvc.handleEvent("clipboard-sync", data, 'DartSocket'));
 
     socket?.connect();
 

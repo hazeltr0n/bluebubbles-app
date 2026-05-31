@@ -246,6 +246,11 @@ class StartupTasks {
     Logger.info("Registering TranscriptionService...");
     GetIt.I.registerSingleton<TranscriptionService>(TranscriptionService());
 
+    Logger.info("Registering ClipboardSyncService...");
+    final clipboardSyncSvc = ClipboardSyncService();
+    GetIt.I.registerSingleton<ClipboardSyncService>(clipboardSyncSvc);
+    clipboardSyncSvc.start();
+
     Logger.info(
         "Startup services initialization complete! Running localhost detection then starting incremental sync...");
 
